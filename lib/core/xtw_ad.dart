@@ -15,11 +15,6 @@ class XTWAd {
     return await _methodChannel.invokeMethod('initAd', {"id": appId});
   }
 
-  static Future<void> shortVideo(String adCode, String backText) async {
-    await _methodChannel
-        .invokeMethod('shortVideo', {"id": adCode, "backText": backText});
-  }
-
   static void insertAd(String adCode, {XTWCallback? callback}) {
     late final StreamSubscription streamSubscription;
     streamSubscription = StreamHandler.listen(

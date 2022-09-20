@@ -1,6 +1,5 @@
 package tech.shmy.xtw_mob
 
-import android.content.Intent
 import androidx.annotation.NonNull
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -11,7 +10,6 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import tech.shmy.xtw_mob.activity.XTWShortVideoActivity
 import tech.shmy.xtw_mob.view.banner.BannerViewFactory
 import tech.shmy.xtw_mob.view.feed.FeedViewFactory
 import tech.shmy.xtw_mob.view.splash.SplashViewFactory
@@ -59,13 +57,6 @@ class XtwMobPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler
       }
       Constant.rewardAd -> {
         XTW.rewardAd(call.argument<String>("id").toString(), call.argument<String>("userId").toString(), queuingEventSink)
-      }
-      Constant.shortVideo -> {
-        val intent = Intent(XTW.context, XTWShortVideoActivity::class.java).apply {
-          putExtra("adCode", call.argument<String>("id").toString())
-          putExtra("backText", call.argument<String>("backText").toString())
-        }
-        XTW.activity.startActivity(intent)
       }
       else -> {
         result.notImplemented()

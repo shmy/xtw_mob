@@ -89,14 +89,6 @@ class App extends StatelessWidget {
           MaterialButton(
             color: Colors.blue,
             textColor: Colors.white,
-            child: const Text('短视频'),
-            onPressed: () async {
-              XTWAd.shortVideo('', '返回App');
-            },
-          ),
-          MaterialButton(
-            color: Colors.blue,
-            textColor: Colors.white,
             child: const Text('插屏广告'),
             onPressed: () async {
               XTWAd.insertAd(

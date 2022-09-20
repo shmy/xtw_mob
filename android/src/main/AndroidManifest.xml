@@ -24,11 +24,15 @@
     <!-- 安装APP权限，用于安装下载类广告下载的APP(不包含广告模块时可不配置) -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <application>
-        <activity
-            android:name=".activity.XTWShortVideoActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:configChanges="keyboard|orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+        <!-- 信天翁：适配Android7.0以及以上 -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.SSPFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/ssp_sdk_files_path" />
+        </provider>
     </application>
 </manifest>

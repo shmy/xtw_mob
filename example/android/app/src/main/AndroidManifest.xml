@@ -5,17 +5,6 @@
         android:label="xtw_mob_example"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-       <!-- 信天翁：适配Android7.0以及以上 -->
-       <provider
-           android:name="androidx.core.content.FileProvider"
-           android:authorities="${applicationId}.SSPFileProvider"
-           android:exported="false"
-           android:grantUriPermissions="true">
-           <meta-data
-               android:name="android.support.FILE_PROVIDER_PATHS"
-               android:resource="@xml/ssp_sdk_files_path" />
-       </provider>
-
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -37,14 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-       <!-- 短视频开始-->
-       <activity
-           android:name="tech.shmy.xtw_mob.activity.XTWShortVideoActivity"
-           android:theme="@style/Theme.AppCompat.NoActionBar"
-           android:configChanges="keyboard|orientation|screenSize"
-           android:screenOrientation="portrait"
-           android:exported="false" />
-       <!-- 短视频结束-->
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
