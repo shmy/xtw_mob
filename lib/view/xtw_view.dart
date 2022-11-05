@@ -54,26 +54,24 @@ class _XTWViewState extends State<XTWView> {
             ),
           Positioned.fill(
             key: const Key('XTWView'),
-            child: SafeArea(
-              child: Builder(builder: (BuildContext context) {
-                final Map<String, dynamic> creationParams = <String, dynamic>{
-                  "id": widget.adCode,
-                  "width": widget.width,
-                  "height": widget.height,
-                };
-                if (Platform.isAndroid) {
-                  return AndroidView(
-                    viewType: viewType,
-                    creationParams: creationParams,
-                    layoutDirection: TextDirection.ltr,
-                    creationParamsCodec: const StandardMessageCodec(),
-                    onPlatformViewCreated: _registerChannel,
-                  );
-                } else {
-                  return const SizedBox();
-                }
-              }),
-            ),
+            child: Builder(builder: (BuildContext context) {
+              final Map<String, dynamic> creationParams = <String, dynamic>{
+                "id": widget.adCode,
+                "width": widget.width,
+                "height": widget.height,
+              };
+              if (Platform.isAndroid) {
+                return AndroidView(
+                  viewType: viewType,
+                  creationParams: creationParams,
+                  layoutDirection: TextDirection.ltr,
+                  creationParamsCodec: const StandardMessageCodec(),
+                  onPlatformViewCreated: _registerChannel,
+                );
+              } else {
+                return const SizedBox();
+              }
+            }),
           ),
         ],
       ),
