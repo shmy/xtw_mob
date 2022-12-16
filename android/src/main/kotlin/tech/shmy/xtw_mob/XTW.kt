@@ -3,7 +3,7 @@ package tech.shmy.xtw_mob
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.widget.LinearLayout
+import android.widget.FrameLayout
 import com.youxiao.ssp.ad.bean.SSPAd
 import com.youxiao.ssp.ad.config.DownloadConfirmPolicy
 import com.youxiao.ssp.ad.core.AdClient
@@ -16,12 +16,12 @@ import io.flutter.plugin.common.MethodChannel
 object XTW {
     lateinit var activity: Activity
     lateinit var context: Context
-    fun getEmptyContainer(): LinearLayout {
-        val layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.MATCH_PARENT
+    fun getEmptyContainer(): FrameLayout {
+        val layoutParams = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.MATCH_PARENT
         )
-        val container = LinearLayout(context)
+        val container = FrameLayout(context)
         container.layoutParams = layoutParams
         return container
     }

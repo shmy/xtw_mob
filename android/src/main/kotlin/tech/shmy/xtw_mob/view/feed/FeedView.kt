@@ -2,8 +2,8 @@ package tech.shmy.xtw_mob.view.feed
 
 import android.annotation.SuppressLint
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.youxiao.ssp.ad.bean.SSPAd
 import com.youxiao.ssp.ad.core.AdClient
@@ -12,7 +12,6 @@ import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.platform.PlatformView
 import tech.shmy.xtw_mob.Constant
-import tech.shmy.xtw_mob.Constant.feedAdView
 import tech.shmy.xtw_mob.XTW
 
 
@@ -22,7 +21,7 @@ class FeedView(
     creationParams: Map<String?, Any?>?
 ) : PlatformView {
     private val imageView = ImageView(XTW.context)
-    private val container: LinearLayout = XTW.getEmptyContainer()
+    private val container: FrameLayout = XTW.getEmptyContainer()
     private var methodChannel: MethodChannel? =
         MethodChannel(messenger, Constant.feedAdView + "_" + id)
 

@@ -1,7 +1,7 @@
 package tech.shmy.xtw_mob.view.splash
 
 import android.view.View
-import android.widget.LinearLayout
+import android.widget.FrameLayout
 import com.youxiao.ssp.ad.bean.SSPAd
 import com.youxiao.ssp.ad.core.AdClient
 import com.youxiao.ssp.ad.listener.AdLoadAdapter
@@ -17,7 +17,7 @@ class SplashView(
     id: Int,
     creationParams: Map<String?, Any?>?
 ) : PlatformView {
-    private val container: LinearLayout = XTW.getEmptyContainer()
+    private val container: FrameLayout = XTW.getEmptyContainer()
     private var methodChannel: MethodChannel? =
         MethodChannel(messenger, Constant.splashAdView + "_" + id)
 
