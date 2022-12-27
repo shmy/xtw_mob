@@ -10,12 +10,16 @@ import com.youxiao.ssp.ad.core.AdClient
 import com.youxiao.ssp.ad.listener.AdLoadAdapter
 import com.youxiao.ssp.ad.listener.RewardVideoAdAdapter
 import com.youxiao.ssp.core.SSPSdk
+import io.flutter.plugin.common.BinaryMessenger
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
 
 @SuppressLint("StaticFieldLeak")
 object XTW {
     lateinit var activity: Activity
     lateinit var context: Context
+    private var insertAdId = -1
+    private var rewardAdId = -1
     fun getEmptyContainer(): FrameLayout {
         val layoutParams = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
@@ -32,13 +36,26 @@ object XTW {
         result.success(true)
     }
 
-    fun insertAd(adCode: String, queuingEventSink: QueuingEventSink) {
+    fun insertAd(adCode: String, binaryMessenger: BinaryMessenger, result: MethodChannel.Result) {
         val adClient = AdClient(activity)
+        insertAdId ++
+        val eventChannel = EventChannel(binaryMessenger, "insertAdEvent_$insertAdId")
+        var eventSink: EventChannel.EventSink? = null
+        eventChannel.setStreamHandler(object : EventChannel.StreamHandler{
+            override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+                eventSink = events
+            }
+
+            override fun onCancel(arguments: Any?) {
+                eventSink = null
+            }
+
+        })
+        result.success(insertAdId)
         adClient.requestInteractionAd(adCode, object : AdLoadAdapter() {
             override fun onAdClick(p0: SSPAd?) {
-                queuingEventSink.success(
+                eventSink?.success(
                     mapOf(
-                        "type" to Constant.insertAd,
                         "event" to "onClick",
                     )
                 )
@@ -46,9 +63,8 @@ object XTW {
             }
 
             override fun onAdShow(p0: SSPAd?) {
-                queuingEventSink.success(
+                eventSink?.success(
                     mapOf(
-                        "type" to Constant.insertAd,
                         "event" to "onShow",
                     )
                 )
@@ -56,36 +72,50 @@ object XTW {
             }
 
             override fun onError(i: Int, s: String) {
-                queuingEventSink.success(
+                eventSink?.success(
                     mapOf(
-                        "type" to Constant.insertAd,
                         "event" to "onError",
                     )
                 )
+                eventSink?.endOfStream()
                 super.onError(i, s)
                 adClient.release()
             }
 
             override fun onAdDismiss(sspAd: SSPAd) {
-                queuingEventSink.success(
+                eventSink?.success(
                     mapOf(
-                        "type" to Constant.insertAd,
                         "event" to "onDismiss",
                     )
                 )
+                eventSink?.endOfStream()
                 super.onAdDismiss(sspAd)
                 adClient.release()
             }
         })
     }
 
-    fun rewardAd(adCode: String, userId: String, queuingEventSink: QueuingEventSink) {
+    fun rewardAd(adCode: String, userId: String, binaryMessenger: BinaryMessenger, result: MethodChannel.Result) {
         val adClient = AdClient(activity)
+        rewardAdId ++
+
+        val eventChannel = EventChannel(binaryMessenger, "rewardAdEvent_$rewardAdId")
+        var eventSink: EventChannel.EventSink? = null
+        eventChannel.setStreamHandler(object : EventChannel.StreamHandler{
+            override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+                eventSink = events
+            }
+
+            override fun onCancel(arguments: Any?) {
+                eventSink = null
+            }
+
+        })
+        result.success(rewardAdId)
         adClient.requestRewardAd(adCode, object : RewardVideoAdAdapter() {
             override fun startPlayRewardVideo() {
-                queuingEventSink.success(
+                eventSink?.success(
                     mapOf(
-                        "type" to Constant.rewardAd,
                         "event" to "onShow",
                     )
                 )
@@ -93,9 +123,8 @@ object XTW {
             }
 
             override fun rewardVideoButtonClick() {
-                queuingEventSink.success(
+                eventSink?.success(
                     mapOf(
-                        "type" to Constant.rewardAd,
                         "event" to "onClick",
                     )
                 )
@@ -103,9 +132,8 @@ object XTW {
             }
 
             override fun rewardVideoClick() {
-                queuingEventSink.success(
+                eventSink?.success(
                     mapOf(
-                        "type" to Constant.rewardAd,
                         "event" to "onClick",
                     )
                 )
@@ -113,41 +141,42 @@ object XTW {
             }
 
             override fun loadRewardAdFail(p0: String?) {
-                queuingEventSink.success(
+                eventSink?.success(
                     mapOf(
-                        "type" to Constant.rewardAd,
                         "event" to "onError",
                     )
                 )
-                super.loadRewardAdFail(p0)
+                eventSink?.endOfStream()
+                adClient.release()
             }
 
             override fun loadRewardVideoFail(p0: Int, p1: Int) {
-                queuingEventSink.success(
+                eventSink?.success(
                     mapOf(
-                        "type" to Constant.rewardAd,
                         "event" to "onError",
                     )
                 )
-                super.loadRewardVideoFail(p0, p1)
+                eventSink?.endOfStream()
+                adClient.release()
             }
+
             override fun onReward(type: Int) {
-                queuingEventSink.success(
+                eventSink?.success(
                     mapOf(
-                        "type" to Constant.rewardAd,
                         "event" to "onReward"
                     )
                 )
+                eventSink?.endOfStream()
                 adClient.release()
             }
 
             override fun rewardVideoClosed() {
-                queuingEventSink.success(
+                eventSink?.success(
                     mapOf(
-                        "type" to Constant.rewardAd,
                         "event" to "onDismiss",
                     )
                 )
+                eventSink?.endOfStream()
                 super.rewardVideoClosed()
                 adClient.release()
             }

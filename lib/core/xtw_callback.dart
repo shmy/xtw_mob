@@ -6,6 +6,7 @@ class XTWCallback {
   final VoidCallback? onFail;
   final VoidCallback? onClose;
   final VoidCallback? onReward;
+  final VoidCallback? onSkip;
 
   XTWCallback({
     this.onShow,
@@ -13,5 +14,6 @@ class XTWCallback {
     this.onFail,
     this.onClose,
     this.onReward,
+    this.onSkip,
   });
 }
