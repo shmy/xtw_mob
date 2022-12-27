@@ -77,8 +77,8 @@ object XTW {
                         "event" to "onError",
                     )
                 )
-                eventSink?.endOfStream()
                 super.onError(i, s)
+                eventSink?.endOfStream()
                 adClient.release()
             }
 
@@ -88,8 +88,8 @@ object XTW {
                         "event" to "onDismiss",
                     )
                 )
-                eventSink?.endOfStream()
                 super.onAdDismiss(sspAd)
+                eventSink?.endOfStream()
                 adClient.release()
             }
         })
@@ -146,6 +146,7 @@ object XTW {
                         "event" to "onError",
                     )
                 )
+                super.loadRewardAdFail(p0)
                 eventSink?.endOfStream()
                 adClient.release()
             }
@@ -156,8 +157,7 @@ object XTW {
                         "event" to "onError",
                     )
                 )
-                eventSink?.endOfStream()
-                adClient.release()
+                super.loadRewardVideoFail(p0, p1)
             }
 
             override fun onReward(type: Int) {
@@ -166,8 +166,7 @@ object XTW {
                         "event" to "onReward"
                     )
                 )
-                eventSink?.endOfStream()
-                adClient.release()
+                super.onReward(type)
             }
 
             override fun rewardVideoClosed() {
@@ -176,8 +175,8 @@ object XTW {
                         "event" to "onDismiss",
                     )
                 )
-                eventSink?.endOfStream()
                 super.rewardVideoClosed()
+                eventSink?.endOfStream()
                 adClient.release()
             }
         })
